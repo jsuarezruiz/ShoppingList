@@ -1,6 +1,6 @@
 # ShoppingList
 
-Xamarin.Forms goodlooking UI sample using the new SwipeView. Based on [Shopping List design](https://dribbble.com/shots/2340386-Shopping-List) by Hila Peleg.
+Xamarin.Forms goodlooking UI sample using the new **Expander Control**. Based on [Shopping List design](https://dribbble.com/shots/2340386-Shopping-List) by Hila Peleg.
 
 The sample is available for two platforms:
 
@@ -9,7 +9,7 @@ The sample is available for two platforms:
 
 Features:
 - Bindable Layout.
-- Expandable Control.
+- Expander Control.
 - PancakeView.
 - Triggers.
 
