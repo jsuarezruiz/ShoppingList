@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    x:Name="ShoppingListPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:ShoppingList.Models"
+    xmlns:viewmodels="clr-namespace:ShoppingList.ViewModels"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    x:Class="ShoppingList.Views.ShoppingListView"
+    BackgroundColor="{StaticResource BackgroundColor}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="TitleTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource TextColor}" />
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="ExpandeLayoutStyle" TargetType="Grid">
+                <Setter Property="HeightRequest" Value="60" />
+            </Style>
+
+            <Style x:Key="ExpanderTitleTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource TextColor}" />
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="12, 0" />
+            </Style>
+
+            <Style x:Key="ExpanderDetailTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource DetailTextColor}" />
+                <Setter Property="FontSize" Value="Small" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="12" />
+            </Style>
+
+            <Style x:Key="CollpasedColorSytle" TargetType="pancakeview:PancakeView">
+                <Setter Property="CornerRadius" Value="24" />
+                <Setter Property="HeightRequest" Value="48" />
+                <Setter Property="WidthRequest" Value="48" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="12, 0" />
+            </Style>
+
+             <Style x:Key="ExpandedColorSytle" TargetType="pancakeview:PancakeView"
+                    BasedOn="{StaticResource CollpasedColorSytle}">
+                <Setter Property="CornerRadius" Value="24, 24, 0, 0" />
+            </Style>
+
+            <Style x:Key="DetailColorSytle" TargetType="pancakeview:PancakeView">
+                <Setter Property="CornerRadius" Value="0" />
+                <Setter Property="HeightRequest" Value="48" />
+                <Setter Property="WidthRequest" Value="48" />
+                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="Margin" Value="12, 0" />
+            </Style>
+
+            <Style x:Key="LatestDetailColorSytle" TargetType="pancakeview:PancakeView"
+                   BasedOn="{StaticResource DetailColorSytle}">
+                <Setter Property="CornerRadius" Value="0, 0, 24, 24" />
+            </Style>
+
+            <Style x:Key="AddIconStyle" TargetType="Image">
+                <Setter Property="Aspect" Value="AspectFit" />
+                <Setter Property="HeightRequest" Value="24" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="12, 0" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <NavigationPage.TitleView>
+        <Grid>
+            <Label
+                Text="SHOPING LIST"
+                Style="{StaticResource TitleTextStyle}"/>
+        </Grid>
+        </NavigationPage.TitleView>
+    <ContentPage.BindingContext>
+        <viewmodels:ShoppingListViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+                BindableLayout.ItemsSource="{Binding Path=Items}"
+                Padding="0, 6, 0, 0">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Expander 
+                            ExpandAnimationEasing="{x:Static Easing.Linear}"
+                            CollapseAnimationEasing="{x:Static Easing.Linear}"
+                            IsExpanded="{Binding IsDetailVisible, Mode=TwoWay}">
+                            <Expander.Header>
+                                <Grid 
+                                    ColumnSpacing="0"
+                                    RowSpacing="0"
+                                    Style="{StaticResource ExpandeLayoutStyle}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <pancakeview:PancakeView
+                                        Grid.Column="0"
+                                        BackgroundColor="{Binding Color}"
+                                        Style="{StaticResource CollpasedColorSytle}">
+                                        <pancakeview:PancakeView.Triggers>
+                                            <DataTrigger
+                                                TargetType="pancakeview:PancakeView"
+                                                Binding="{Binding IsDetailVisible}"
+                                                Value="True">
+                                                <Setter Property="HeightRequest" Value="54" />
+                                                <Setter Property="VerticalOptions" Value="End" />
+                                                <Setter Property="Style" Value="{StaticResource ExpandedColorSytle}" />
+                                            </DataTrigger>
+                                            <DataTrigger
+                                                TargetType="pancakeview:PancakeView"
+                                                Binding="{Binding IsDetailVisible}"
+                                                Value="False">
+                                                <Setter Property="Style" Value="{StaticResource CollpasedColorSytle}" />
+                                            </DataTrigger>
+                                        </pancakeview:PancakeView.Triggers>
+                                        <Image
+                                            Aspect="AspectFit"
+                                            Source="{Binding Icon}"/>
+                                    </pancakeview:PancakeView>
+                                    <Label 
+                                        Grid.Column="1"
+                                        Text="{Binding Name}"
+                                        Style="{StaticResource ExpanderTitleTextStyle}"/>
+                                    <BoxView
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Grid.Row="1"
+                                        HeightRequest="2"
+                                        BackgroundColor="Black"
+                                        Margin="0, 6, 0, 0"
+                                        IsVisible="{Binding IsDetailVisible, Converter={StaticResource InverseBoolConverter}}" />
+                                </Grid>
+                            </Expander.Header>
+                            <Grid
+                                ColumnSpacing="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout 
+                                    Grid.Column="1"
+                                    BindableLayout.ItemsSource="{Binding Items}"
+                                    Spacing="0">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid 
+                                                ColumnSpacing="0"
+                                                RowSpacing="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                 <pancakeview:PancakeView
+                                                     Grid.Column="0"
+                                                     BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type models:ShoppingItem}}, Path=Color}"
+                                                     Style="{StaticResource DetailColorSytle}">
+                                                     <pancakeview:PancakeView.Triggers>
+                                                         <DataTrigger
+                                                             TargetType="pancakeview:PancakeView"
+                                                             Binding="{Binding IsLatest}"
+                                                             Value="True">
+                                                             <Setter Property="Style" Value="{StaticResource LatestDetailColorSytle}" />
+                                                         </DataTrigger>
+                                                         <DataTrigger
+                                                             TargetType="pancakeview:PancakeView"
+                                                             Binding="{Binding IsLatest}"
+                                                             Value="False">
+                                                             <Setter Property="Style" Value="{StaticResource DetailColorSytle}" />
+                                                         </DataTrigger>
+                                                     </pancakeview:PancakeView.Triggers>
+                                                 </pancakeview:PancakeView>
+                                                <Label
+                                                    Grid.Column="1"
+                                                    Text="{Binding Name}"
+                                                    Style="{StaticResource ExpanderDetailTextStyle}"/>
+                                                <Image
+                                                    Grid.Column="2"
+                                                    Source="add.png"
+                                                    Style="{StaticResource AddIconStyle}"/>
+                                                <Grid
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="3"
+                                                    Grid.Row="1"
+                                                    IsVisible="{Binding IsLatest}">
+                                                    <Grid.Triggers>
+                                                        <DataTrigger
+                                                            TargetType="Grid"
+                                                            Binding="{Binding IsLatest}"
+                                                            Value="True">
+                                                            <Setter Property="Margin" Value="0, 12, 0, 0" />
+                                                        </DataTrigger>
+                                                        <DataTrigger
+                                                            TargetType="Grid"
+                                                            Binding="{Binding IsLatest}"
+                                                            Value="False">
+                                                            <Setter Property="Margin" Value="0" />
+                                                        </DataTrigger>
+                                                    </Grid.Triggers>
+                                                    <BoxView
+                                                        HeightRequest="2"
+                                                        BackgroundColor="Black" />
+                                                </Grid>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </StackLayout>
+                            </Grid>
+                        </Expander>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

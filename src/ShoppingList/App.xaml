@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="clr-namespace:ShoppingList.Converters"
+    mc:Ignorable="d" x:Class="ShoppingList.App">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <!-- COLORS -->
+            <Color x:Key="BarBackgroundColor">#190D38</Color>
+            <Color x:Key="TextColor">#FFFFFF</Color>
+            <Color x:Key="BackgroundColor">#241345</Color>
+            <Color x:Key="DetailTextColor">#9486B0</Color>
+
+            <!-- CONVERTERS -->
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
